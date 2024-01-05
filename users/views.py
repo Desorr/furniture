@@ -17,6 +17,10 @@ def login(request):
             if user:
                 auth.login(request, user)
                 messages.success(request, f"{username}, Вы вошли в аккаунт")
+
+                if request.POST.get('next', None):
+                    return HttpResponseRedirect(request.POST.get('next'))
+
                 return HttpResponseRedirect(reverse("main:index"))
     else:
         form = UserLoginForm()
@@ -35,7 +39,10 @@ def registration(request):
             form.save()
             user = form.instance
             auth.login(request, user)
-            messages.success(request, f"{user.username}, Вы успешно зарегистрированы и вошли в аккаунт")
+            messages.success(
+                request,
+                f"{user.username}, Вы успешно зарегистрированы и вошли в аккаунт",
+            )
             return HttpResponseRedirect(reverse("main:index"))
     else:
         form = UserRegistrationForm()
@@ -49,12 +56,14 @@ def registration(request):
 
 @login_required
 def profile(request):
-    if request.method == 'POST':
-        form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+    if request.method == "POST":
+        form = ProfileForm(
+            data=request.POST, instance=request.user, files=request.FILES
+        )
         if form.is_valid():
             form.save()
             messages.success(request, "Профайл успешно обновлен")
-            return HttpResponseRedirect(reverse('user:profile'))
+            return HttpResponseRedirect(reverse("user:profile"))
     else:
         form = ProfileForm(instance=request.user)
 
