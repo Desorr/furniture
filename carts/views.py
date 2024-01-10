@@ -5,7 +5,6 @@ from goods.models import Products
 
 
 def cart_add(request, product_slug):
-
     product = Products.objects.get(slug=product_slug)
 
     if request.user.is_authenticated:
@@ -19,11 +18,14 @@ def cart_add(request, product_slug):
         else:
             Cart.objects.create(user=request.user, product=product, quantity=1)
 
-    return redirect(request.META['HTTP_REFERER'])
+    return redirect(request.META["HTTP_REFERER"])
 
-def cart_change(request, product_slug):
+
+def cart_change(request, product_slug) -> None:
     pass
 
 
-def cart_remove(request, product_slug):
-    pass
+def cart_remove(request, cart_id):
+    cart = Cart.objects.get(id=cart_id)
+    cart.delete()
+    return redirect(request.META["HTTP_REFERER"])
