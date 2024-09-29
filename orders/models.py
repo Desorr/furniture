@@ -28,6 +28,8 @@ class Order(models.Model):
         db_table = "order"
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
+        ordering = ("id",)
+        
 
     def __str__(self):
         return f"Заказ № {self.pk} | Покупатель {self.user.first_name} {self.user.last_name}"
