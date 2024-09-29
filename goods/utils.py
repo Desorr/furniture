@@ -25,7 +25,7 @@ def q_search(query):
             "name",
             query,
             start_sel='<span style="background-color: yellow;">',
-            stop_sel="<span>",
+            stop_sel="</span>",
         )
     )
     result = result.annotate(
@@ -33,7 +33,7 @@ def q_search(query):
             "description",
             query,
             start_sel='<span style="background-color: yellow;">',
-            stop_sel="<span>",
+            stop_sel="</span>",
         )
     )
 
